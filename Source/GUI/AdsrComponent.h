@@ -18,7 +18,7 @@
 class AdsrComponent  : public juce::Component
 {
 public:
-    AdsrComponent();
+    AdsrComponent (juce::AudioProcessorValueTreeState& apvts);
     ~AdsrComponent() override;
 
     void paint (juce::Graphics&) override;
