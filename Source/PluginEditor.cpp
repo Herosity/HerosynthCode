@@ -8,19 +8,25 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "GUI/AdsrComponent.h"
+#include "C:\Users\rodzi\Desktop\JUCE\modules\juce_audio_utils\gui\juce_AudioVisualiserComponent.h"
 
 //==============================================================================
 NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor(NewProjectAudioProcessor& p)
-    : AudioProcessorEditor(&p), audioProcessor(p), adsr (audioProcessor.apvts)
+    : AudioProcessorEditor(&p)
+    , audioProcessor(p)
+    , osc(audioProcessor.apvts, "OSC1WAVETYPE", "OSC1FMFREQ", "OSC1FMDEPTH")
+    , adsr ("Osc Envelope", audioProcessor.apvts, "ATTACK", "DECAY", "SUSTAIN", "RELEASE")
+    , filterAdsr ("Mod Envelope", audioProcessor.apvts, "FILTERATTACK", "FILTERDECAY", "FILTERSUSTAIN", "FILTERRELEASE")
+    , filter (audioProcessor.apvts, "FILTERTYPE", "FILTERFREQ", "FILTERRES")
 {
-    startTimerHz(60); //specific start timer
+    //startTimerHz(60); //specific start timer
    
-    setSize(1600, 1200);
-
-    oscSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "OSC", oscSelector);
-
+    setSize(1600, 900);
+    setResizeLimits(1600, 900, 1600, 900);
+    addAndMakeVisible(osc);
     addAndMakeVisible(adsr);
+    addAndMakeVisible(filterAdsr);
+    addAndMakeVisible(filter);
 }
 
 NewProjectAudioProcessorEditor::~NewProjectAudioProcessorEditor()
@@ -32,23 +38,27 @@ void NewProjectAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.fillAll(juce::Colours::white);
+    g.fillAll(juce::Colours::grey);
 
-    g.setColour (juce::Colours::purple);
-    g.setFont (20.0f);
+    g.setColour (juce::Colours::deepskyblue);
+    g.setFont (25.0f);
     g.drawFittedText ("Hero-10", getLocalBounds(), juce::Justification::centredBottom, 1);
 }
 
 void NewProjectAudioProcessorEditor::resized()
 {
-    adsr.setBounds (0, (getHeight() / 2) - (1600 / 6) / 2 , getWidth() / 4, getHeight() / 6 ); 
-    //PERSONAL NOTE// (getHeight() / 2) - (1600 / 6) / 2, Y start point, getHeight / 2 sets Y at half height, making sliders start at Y 800 form 1600px.
-    //To make sure the middle of the slider is centered at 800, (1600 / 6) / 2 calculates the Height of sliders and devides the value by 2.
-    //That value is then substracted from the starting position, making the Y coordinate start half a slider higher, centering sliders on Y axis.
+    const auto padding = 50;
+
+    osc.setBounds(0 + padding, 0 + padding, getWidth() / 4, getHeight() / 4); //OSC
+    adsr.setBounds (400 + padding, 0 + padding, getWidth() / 4, getHeight() / 4); //ADSR
+    filterAdsr.setBounds(400 + padding, 300 + padding, getWidth() / 4, getHeight() / 4); //MOD
+    filter.setBounds(0 + padding, 300 + padding, getWidth() / 4, getHeight() / 4); //FLTR
+    //visualiser.setBounds(800 + padding, 300 + padding, getWidth() / 4, getHeight() / 4);
 }
 
-void NewProjectAudioProcessorEditor::timerCallback()
-{
-    repaint();
-}
+//void NewProjectAudioProcessorEditor::timerCallback()
+//{
+//    repaint();
+//    //visualiser.pushBuffer(audioProcessor.getBuffer());
+//}
 

@@ -11,11 +11,13 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "GUI/AdsrComponent.h"
+#include "GUI/OscComponent.h"
+#include "GUI/FMComponent.h"
 
 //==============================================================================
 /**
 */
-class NewProjectAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Timer
+class NewProjectAudioProcessorEditor  : public juce::AudioProcessorEditor//, juce::Timer
 {
 public:
     NewProjectAudioProcessorEditor (NewProjectAudioProcessor&);
@@ -24,13 +26,14 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-    void timerCallback() override;
+    //void timerCallback() override;
 
 private:
-    juce::ComboBox oscSelector;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> oscSelectAttachment;
     NewProjectAudioProcessor& audioProcessor;
+    OscComponent osc;
     AdsrComponent adsr;
+    AdsrComponent filterAdsr;
+    FMComponent filter;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)
 };

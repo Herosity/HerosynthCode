@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "SynthVoice.h"
 #include "SynthSound.h"
+#include "Data/AdsrData.h"
 
 
 //==============================================================================
@@ -57,6 +58,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     juce::AudioProcessorValueTreeState apvts;
+    //juce::AudioBuffer <float> buffer; //was copyBuffer
+    //juce::AudioBuffer <float> getBuffer() { return copyBuffer; }
 
 private:
     juce::Synthesiser synth;
