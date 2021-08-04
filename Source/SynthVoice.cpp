@@ -65,7 +65,7 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
         return;
 
     synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
-    filterAdsr.applyEnvelopeToBuffer(outputBuffer, 0, numSamples);
+    filterAdsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
     synthBuffer.clear();
 
     juce::dsp::AudioBlock<float> audioBlock { synthBuffer };

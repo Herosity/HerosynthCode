@@ -19,8 +19,8 @@
 class SynthVoice : public juce::SynthesiserVoice
 {
 public:
-    bool canPlaySound (juce::SynthesiserSound *sound) override;
-    void startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) override;
+    bool canPlaySound (juce::SynthesiserSound* sound) override;
+    void startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition) override;
     void stopNote (float velocity, bool allowTailOff) override;
     void controllerMoved (int controllerNumber, int newControllerValue) override;
     void pitchWheelMoved (int newPitchWheelValue) override;
