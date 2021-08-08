@@ -2,7 +2,8 @@
 
 <JUCERPROJECT id="G4BQpA" name="Herosynth" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
+              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              cppLanguageStandard="17">
   <MAINGROUP id="e5A7aW" name="Herosynth">
     <GROUP id="{F6682A6E-17DC-9250-DC64-5BBFBFDF55A6}" name="Source">
       <FILE id="UrNS3t" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -20,6 +21,8 @@
         <FILE id="u9UvT4" name="AdsrData.h" compile="0" resource="0" file="Source/Data/AdsrData.h"/>
         <FILE id="NdlgtN" name="FMData.cpp" compile="1" resource="0" file="Source/Data/FMData.cpp"/>
         <FILE id="gh6fwn" name="FMData.h" compile="0" resource="0" file="Source/Data/FMData.h"/>
+        <FILE id="jo1PY8" name="MeterData.cpp" compile="1" resource="0" file="Source/Data/MeterData.cpp"/>
+        <FILE id="mkC2Lq" name="MeterData.h" compile="0" resource="0" file="Source/Data/MeterData.h"/>
         <FILE id="RkDx0X" name="OscData.cpp" compile="1" resource="0" file="Source/Data/OscData.cpp"/>
         <FILE id="iqeGuk" name="OscData.h" compile="0" resource="0" file="Source/Data/OscData.h"/>
       </GROUP>
@@ -27,8 +30,19 @@
         <FILE id="S73F3U" name="AdsrComponent.cpp" compile="1" resource="0"
               file="Source/GUI/AdsrComponent.cpp"/>
         <FILE id="iDJNEU" name="AdsrComponent.h" compile="0" resource="0" file="Source/GUI/AdsrComponent.h"/>
+        <FILE id="m8r31H" name="CustomComponent.cpp" compile="1" resource="0"
+              file="Source/GUI/CustomComponent.cpp"/>
+        <FILE id="jKP2YF" name="CustomComponent.h" compile="0" resource="0"
+              file="Source/GUI/CustomComponent.h"/>
         <FILE id="UebneO" name="FMComponent.cpp" compile="1" resource="0" file="Source/GUI/FMComponent.cpp"/>
         <FILE id="MvoHu7" name="FMComponent.h" compile="0" resource="0" file="Source/GUI/FMComponent.h"/>
+        <FILE id="WDuNLI" name="LFOComponent.cpp" compile="1" resource="0"
+              file="Source/GUI/LFOComponent.cpp"/>
+        <FILE id="wo9Q1V" name="LFOComponent.h" compile="0" resource="0" file="Source/GUI/LFOComponent.h"/>
+        <FILE id="uwPUYc" name="MeterComponent.cpp" compile="1" resource="0"
+              file="Source/GUI/MeterComponent.cpp"/>
+        <FILE id="T7bPBL" name="MeterComponent.h" compile="0" resource="0"
+              file="Source/GUI/MeterComponent.h"/>
         <FILE id="y0wV1F" name="OscComponent.cpp" compile="1" resource="0"
               file="Source/GUI/OscComponent.cpp"/>
         <FILE id="hKbfHi" name="OscComponent.h" compile="0" resource="0" file="Source/GUI/OscComponent.h"/>

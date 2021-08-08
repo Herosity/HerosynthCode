@@ -10,53 +10,70 @@
 
 #include "FMData.h"
 
-void FMData::prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels)
+FMData::FMData()
 {
-    filter.reset();
+    setType(juce::dsp::StateVariableTPTFilterType::lowpass);
+}
 
+void FMData::setParameters(const int filterType, const float filterCutoff, const float filterResonance)
+{
+    selectFilterType(filterType);
+    setCutoffFrequency(filterCutoff);
+    setResonance(filterResonance);
+}
+
+void FMData::setLfoParams(const float freq, const float depth)
+{
+    //lfoGain = juce::Decibels::gainToDecibels (depth);
+    lfo.setFrequency (freq);
+}
+
+void FMData::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels)
+{
+    resetAll();
     juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
-    spec.numChannels = numChannels;
-
-    filter.prepare(spec);
-
-    isPrepared = true;
+    spec.numChannels = outputChannels;
+    prepare(spec);
 }
 
-void FMData::process(juce::AudioBuffer<float>& buffer)
-{
-    jassert(isPrepared);
 
-    juce::dsp::AudioBlock<float> block{ buffer };
-    filter.process(juce::dsp::ProcessContextReplacing<float> { block });
-}
-
-void FMData::updateParameters(const float modulator, const int filterType, const float frequency, const float resonance)
+void FMData::selectFilterType(const int filterType)
 {
     switch (filterType)
     {
     case 0:
-        filter.setType(juce::dsp::StateVariableTPTFilterType::lowpass);
+        setType(juce::dsp::StateVariableTPTFilterType::lowpass);
         break;
 
     case 1:
-        filter.setType(juce::dsp::StateVariableTPTFilterType::bandpass);
+        setType(juce::dsp::StateVariableTPTFilterType::bandpass);
         break;
 
     case 2:
-        filter.setType(juce::dsp::StateVariableTPTFilterType::highpass);
+        setType(juce::dsp::StateVariableTPTFilterType::highpass);
+        break;
+
+    default:
+        jassertfalse;//setType(juce::dsp::StateVariableTPTFilterType::lowpass);
         break;
     }
-
-    float modulatedFreq = frequency * modulator;
-    modulatedFreq = std::fmax(std::fmin(modulatedFreq, 20000.0f), 20.0f);
-
-    filter.setCutoffFrequency(modulatedFreq);
-    filter.setResonance(resonance);
 }
 
-void FMData::reset()
+void FMData::processNextBlock(juce::AudioBuffer<float>& buffer)
 {
-    filter.reset();
+    juce::dsp::AudioBlock<float> block{ buffer };
+    process(juce::dsp::ProcessContextReplacing<float>(block));
+}
+
+float FMData::processNextSample(int channel, float inputValue)
+{
+    return processSample(channel, inputValue);
+}
+
+void FMData::resetAll()
+{
+    reset();
+    lfo.reset();
 }

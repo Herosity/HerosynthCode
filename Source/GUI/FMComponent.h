@@ -11,37 +11,29 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "CustomComponent.h"
 
 //==============================================================================
 /*
 */
-class FMComponent  : public juce::Component
+class FMComponent  : public CustomComponent
 {
 public:
     FMComponent(juce::AudioProcessorValueTreeState& apvts, juce::String filterTypeSelectorId, juce::String filterFreqId, juce::String filterResId);
     ~FMComponent() override;
 
-    void paint (juce::Graphics&) override;
     void resized() override;
 
 private:
 
-    juce::ComboBox filterTypeSelector{ "Filter Type" };
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> filterTypeSelectorAttachment;
+    juce::ComboBox filterTypeSelector;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> filterTypeAttachment;
 
-    juce::Slider filterFreqSlider;
-    juce::Slider filterResSlider;
+    SliderWithLabel cutoff;
+    SliderWithLabel resonance;
 
-    using Attachment = juce::AudioProcessorValueTreeState::SliderAttachment;
-
-    std::unique_ptr<Attachment> filterFreqAttachment;
-    std::unique_ptr<Attachment> filterResAttachment;
-
-    juce::Label filterSelectorLabel{ "Filter Type", "Filter Type" };
-    juce::Label filterFreqLabel{ "Filter Freq", "Filter Freq" };
-    juce::Label filterResLabel{ "Filter Res", "FilterRes" };
-
-    void setSliderWithLabel(juce::Slider& slider, juce::Label& label, juce::AudioProcessorValueTreeState& apvts, juce::String paramId, std::unique_ptr<Attachment>& attachment);
+    static constexpr int dialWidth = 70;
+    static constexpr int dialHeight = 70;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FMComponent)
 };

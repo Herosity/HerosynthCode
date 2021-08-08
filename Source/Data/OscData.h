@@ -14,17 +14,22 @@
 class OscData : public juce::dsp::Oscillator<float>
 {
 public:
-    void prepareToPlay (juce::dsp::ProcessSpec& spec);
-    void setWaveType (const int choice);
-    void setWaveFrequency (const int midiNotNumber);
-    void getNextAudioBlock (juce::dsp::AudioBlock<float>& block);
-    void updateFm (const float freq, const float depth);
+    void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
+    void setType(const int oscSelection);
+    void setGain(const float levelInDecibels);
+    void setOscPitch(const int pitch);
+    void setFreq(const int midiNoteNumber);
+    void setFmOsc(const float freq, const float depth);
+    void renderNextBlock(juce::dsp::AudioBlock<float>& audioBlock);
+    float processNextSample(float input);
+    void setParameters(const int oscChoice, const float oscGain, const int oscPitch, const float fmFreq, const float fmDepth);
+    void resetAll();
 
 private:
-    void processFmOsc(juce::dsp::AudioBlock<float>& block);
-
     juce::dsp::Oscillator<float> fmOsc{ [](float x) { return std::sin (x); } };
+    juce::dsp::Gain<float> gain;
     float fmMod{ 0.0f };
     float fmDepth{ 0.0f };
+    int lastPitch{ 0 };
     int lastMidiNote{ 0 };
 };

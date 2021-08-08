@@ -11,15 +11,18 @@
 #pragma once
 #include <JuceHeader.h>
 
-class FMData
+class FMData : public juce::dsp::StateVariableTPTFilter<float>
 {
 public:
-    void prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels);
-    void process(juce::AudioBuffer<float>& buffer);
-    void updateParameters(const float modulator, const int filterType, const float frequency, const float resonance);
-    void reset();
+    FMData();
+    void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
+    void setParameters(const int filterType, const float filterCutoff, const float filterResonance);
+    void setLfoParams(const float freq, const float depth);
+    void processNextBlock(juce::AudioBuffer<float>& buffer);
+    float processNextSample(int channel, float inputValue);
+    void resetAll();
 
 private:
-    juce::dsp::StateVariableTPTFilter<float> filter;
-    bool isPrepared{ false };
+    void selectFilterType(const int type);
+    juce::dsp::Oscillator<float> lfo{ [](float x) { return std::sin(x); } };
 };

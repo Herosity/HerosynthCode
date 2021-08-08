@@ -13,11 +13,14 @@
 #include "GUI/AdsrComponent.h"
 #include "GUI/OscComponent.h"
 #include "GUI/FMComponent.h"
+#include "GUI/LFOComponent.h"
+#include "GUI/MeterComponent.h"
+
 
 //==============================================================================
 /**
 */
-class NewProjectAudioProcessorEditor  : public juce::AudioProcessorEditor//, juce::Timer
+class NewProjectAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Timer
 {
 public:
     NewProjectAudioProcessorEditor (NewProjectAudioProcessor&);
@@ -26,14 +29,17 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-    //void timerCallback() override;
+    void timerCallback() override;
 
 private:
     NewProjectAudioProcessor& audioProcessor;
-    OscComponent osc;
+    OscComponent osc1;
+    OscComponent osc2;
     AdsrComponent adsr;
     AdsrComponent filterAdsr;
     FMComponent filter;
+    LFOComponent lfo1;
+    MeterComponent meter;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)
 };

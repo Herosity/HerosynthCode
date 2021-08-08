@@ -11,7 +11,7 @@
 #include <JuceHeader.h>
 #include "SynthVoice.h"
 #include "SynthSound.h"
-#include "Data/AdsrData.h"
+#include "Data/MeterData.h"
 
 
 //==============================================================================
@@ -25,7 +25,7 @@ public:
     ~NewProjectAudioProcessor() override;
 
     //==============================================================================
-    void prepareToPlay (double sampleRate, int samplesPerBlock) override;
+    void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
 
    #ifndef JucePlugin_PreferredChannelConfigurations
@@ -57,13 +57,23 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    const std::atomic<float>& getRMS() { return meter.getRMS(); }
+    const std::atomic<float>& getPeak() { return meter.getPeak(); }
+
     juce::AudioProcessorValueTreeState apvts;
-    //juce::AudioBuffer <float> buffer; //was copyBuffer
-    //juce::AudioBuffer <float> getBuffer() { return copyBuffer; }
+    
 
 private:
+    static constexpr int numChannelsToProcess{ 2 };
     juce::Synthesiser synth;
+    
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+    void setParameters();
+    void setVoiceParams();
+    void setFilterParams();
+
+    static constexpr int numVoices{ 9 };
+    MeterData meter;
    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessor)

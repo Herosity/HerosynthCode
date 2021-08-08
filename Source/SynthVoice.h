@@ -27,20 +27,28 @@ public:
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
     void renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
 
-    void updateFilter (const int filterType, const float frequency, const float resonance);
+    void reset();
     
-    OscData& getOscillator() { return osc; }
+    std::array<OscData, 2>& getOscillator1() { return osc1; }
+    std::array<OscData, 2>& getOscillator2() { return osc2; }
     AdsrData& getAdsr() { return adsr; }
     AdsrData& getFilterAdsr() { return filterAdsr; }
-    FMData& getFilter() { return filter; }
+    float getFilterAdsrOutput() { return filterAdsrOutput; }
+    void updateModParams(const int filterType, const float filterCutoff, const float filterResonance, const float adsrDepth, const float lfoFreq, const float lfoDepth);
     
 private:
-    juce::AudioBuffer<float> synthBuffer;
-    
-    OscData osc;
+    static constexpr int numChannelsToProcess{ 2 };
+    std::array<OscData, numChannelsToProcess> osc1;
+    std::array<OscData, numChannelsToProcess> osc2;
+    std::array<FMData, numChannelsToProcess> filter;
+    std::array<juce::dsp::Oscillator<float>, numChannelsToProcess> lfo;
     AdsrData adsr;
     AdsrData filterAdsr;
-    FMData filter;
+    juce::AudioBuffer<float> synthBuffer;
+    float filterAdsrOutput{ 0.0f };
+    std::array<float, numChannelsToProcess> lfoOutput{ 0.0f, 0.0f };
+
+
     juce::dsp::Gain<float> gain;
     
     bool isPrepared{ false };
