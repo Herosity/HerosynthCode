@@ -51,7 +51,8 @@ public:
 
 private:
     juce::String name{ "" };
-    juce::Colour boundsColour{ juce::Colours::white };
+    juce::Colour boundsColour{ juce::Colour::fromRGB(0, 255, 255) };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CustomComponent)
 };
+

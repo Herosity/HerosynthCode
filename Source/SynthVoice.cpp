@@ -77,10 +77,10 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
 
     if (!isVoiceActive())
         return;
-    
-    
+        
     synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
-    
+
+    // https://docs.juce.com/master/classADSR.html
     filterAdsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
     filterAdsrOutput = filterAdsr.getNextSample();
 
@@ -117,6 +117,7 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
         if (!adsr.isActive())
             clearCurrentNote();
     }
+
 }
 
 void SynthVoice::reset()
@@ -128,6 +129,8 @@ void SynthVoice::reset()
 
 void SynthVoice::updateModParams(const int filterType, const float filterCutoff, const float filterResonance, const float adsrDepth, const float lfoFreq, const float lfoDepth)
 {
+    // Control the parameters for the filterADSR
+    // adsrDepth == const 10000
     auto cutoff = (adsrDepth * filterAdsrOutput) + filterCutoff;
     cutoff = std::clamp<float>(cutoff, 20.0f, 20000.0f);
 
@@ -135,7 +138,9 @@ void SynthVoice::updateModParams(const int filterType, const float filterCutoff,
     {
         filter[ch].setParameters(filterType, cutoff, filterResonance);
     }
-    /*auto cutoff = (adsrDepth * adsr.getNextSample()) + filterCutoff;
+    
+    /*
+    auto cutoff = (adsrDepth * adsr.getNextSample()) + filterCutoff;
     
     DBG (cutoff);
     

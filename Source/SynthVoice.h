@@ -15,6 +15,7 @@
 #include "Data/AdsrData.h"
 #include "Data/OscData.h"
 #include "Data/FMData.h"
+#include "GUI/VisualiserComponent.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {

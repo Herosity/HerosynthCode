@@ -25,7 +25,7 @@ void FMData::setParameters(const int filterType, const float filterCutoff, const
 void FMData::setLfoParams(const float freq, const float depth)
 {
     //lfoGain = juce::Decibels::gainToDecibels (depth);
-    lfo.setFrequency (freq);
+    //lfo.setFrequency (freq);
 }
 
 void FMData::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels)
@@ -56,7 +56,7 @@ void FMData::selectFilterType(const int filterType)
         break;
 
     default:
-        jassertfalse;//setType(juce::dsp::StateVariableTPTFilterType::lowpass);
+        setType(juce::dsp::StateVariableTPTFilterType::lowpass);
         break;
     }
 }

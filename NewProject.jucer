@@ -46,6 +46,12 @@
         <FILE id="y0wV1F" name="OscComponent.cpp" compile="1" resource="0"
               file="Source/GUI/OscComponent.cpp"/>
         <FILE id="hKbfHi" name="OscComponent.h" compile="0" resource="0" file="Source/GUI/OscComponent.h"/>
+        <FILE id="GaPtj3" name="ReverbComponent.cpp" compile="1" resource="0"
+              file="Source/GUI/ReverbComponent.cpp"/>
+        <FILE id="R4Icww" name="ReverbComponent.h" compile="0" resource="0"
+              file="Source/GUI/ReverbComponent.h"/>
+        <FILE id="i84MRS" name="VisualiserComponent.h" compile="0" resource="0"
+              file="Source/GUI/VisualiserComponent.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>

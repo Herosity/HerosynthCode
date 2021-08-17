@@ -19,6 +19,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor(NewProjectAudioPr
     , adsr(audioProcessor.apvts, "ATTACK", "DECAY", "SUSTAIN", "RELEASE")
     , lfo1(audioProcessor.apvts, "LFO1FREQ", "LFO1DEPTH")
     , filterAdsr(audioProcessor.apvts, "FILTERATTACK", "FILTERDECAY", "FILTERSUSTAIN", "FILTERRELEASE")
+    , reverb(audioProcessor.apvts, "REVERBSIZE", "REVERBDAMPING", "REVERBWIDTH", "REVERBDRY", "REVERBWET", "REVERBFREEZE")
     , meter(audioProcessor)
 {
     
@@ -28,7 +29,9 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor(NewProjectAudioPr
     addAndMakeVisible(adsr);
     addAndMakeVisible(lfo1);
     addAndMakeVisible(filterAdsr);
+    addAndMakeVisible(reverb);
     addAndMakeVisible(meter);
+    addAndMakeVisible(audioProcessor.visualiser);
 
     osc1.setName("Oscillator 1");
     osc2.setName("Oscillator 2");
@@ -37,6 +40,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor(NewProjectAudioPr
     filterAdsr.setName("Filter ADSR");
     adsr.setName("ADSR");
     meter.setName("Meter");
+    audioProcessor.visualiser.setName("Visualiser");
 
     auto oscColour = juce::Colour::fromRGB(0, 255, 255);
     auto filterColour = juce::Colour::fromRGB(0, 255, 255);
@@ -51,8 +55,8 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor(NewProjectAudioPr
     adsr.setBoundsColour(filterColour);
     
     startTimerHz(60); //specific start timer
-    setSize(1600, 900);
-    setResizeLimits(1600, 900, 1600, 900);
+    setSize(1100, 900);
+    setResizeLimits(1100, 900, 1100, 900);
 }
 
 NewProjectAudioProcessorEditor::~NewProjectAudioProcessorEditor()
@@ -69,7 +73,9 @@ void NewProjectAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colour::fromRGB(0, 255, 255));
     g.setFont (25.0f);
-    g.drawFittedText ("PolySynth", getLocalBounds(), juce::Justification::centredBottom, 1);
+    g.setFont(g.getCurrentFont().boldened());
+    g.setFont(g.getCurrentFont().italicised());
+    g.drawFittedText ("H    e   r   o   s   y   n   t   h", getLocalBounds(), juce::Justification::centredBottom, 1);
 }
 
 void NewProjectAudioProcessorEditor::resized()
@@ -83,8 +89,9 @@ void NewProjectAudioProcessorEditor::resized()
     lfo1.setBounds(osc2.getRight(), filter.getBottom(), 180, 160);
     filterAdsr.setBounds(filter.getRight(), 0, 230, 360);
     adsr.setBounds(filterAdsr.getRight(), 0, 230, 360);
-    meter.setBounds(1000, 400, filterAdsr.getWidth() + lfo1.getWidth(), 150);
-
+    reverb.setBounds(0, osc2.getBottom(), oscWidth, oscHeight);
+    meter.setBounds(reverb.getRight(), filterAdsr.getBottom(), lfo1.getWidth()+filterAdsr.getWidth()+adsr.getWidth(), oscHeight);
+    audioProcessor.visualiser.setBounds(0, reverb.getBottom(), reverb.getWidth()+meter.getWidth(), oscHeight+100);
 }
 
 void NewProjectAudioProcessorEditor::timerCallback()

@@ -14,6 +14,7 @@
 #include "Data/MeterData.h"
 
 
+
 //==============================================================================
 /**
 */
@@ -59,8 +60,9 @@ public:
 
     const std::atomic<float>& getRMS() { return meter.getRMS(); }
     const std::atomic<float>& getPeak() { return meter.getPeak(); }
-
+    
     juce::AudioProcessorValueTreeState apvts;
+    VisualiserComponent visualiser;
     
 
 private:
@@ -71,9 +73,13 @@ private:
     void setParameters();
     void setVoiceParams();
     void setFilterParams();
+    void setReverbParams();
 
     static constexpr int numVoices{ 9 };
+    juce::dsp::Reverb reverb;
+    juce::Reverb::Parameters reverbParameters;
     MeterData meter;
+    
    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessor)

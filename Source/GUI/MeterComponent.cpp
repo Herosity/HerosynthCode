@@ -25,7 +25,7 @@ MeterComponent::~MeterComponent()
 
 void MeterComponent::paintOverChildren(juce::Graphics& g)
 {
-    auto bounds = getLocalBounds().reduced(20, 35).translated(0, 10);
+    auto bounds = getLocalBounds().reduced(0, 40).translated(0, 10);
     auto leftMeter = bounds.removeFromTop(bounds.getHeight() / 2).reduced(0, 5);
     auto rightMeter = bounds.reduced(0, 5);
 
@@ -44,8 +44,8 @@ void MeterComponent::paintOverChildren(juce::Graphics& g)
     g.fillRoundedRectangle(rightMeter.getX(), rightMeter.getY(), peakLevel, rightMeter.getHeight(), 5);
 
     g.setColour(juce::Colour::fromRGB(0, 255, 255));
-    g.drawRoundedRectangle(leftMeter.toFloat(), 5, 2.0f);
-    g.drawRoundedRectangle(rightMeter.toFloat(), 5, 2.0f);
+    g.drawRoundedRectangle(leftMeter.toFloat(), 5.0f, 5.0f);
+    g.drawRoundedRectangle(rightMeter.toFloat(), 5.0f, 5.0f);
 }
 
 void MeterComponent::resized()

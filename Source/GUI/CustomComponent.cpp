@@ -60,7 +60,7 @@ void CustomComponent::paint(juce::Graphics& g)
     g.fillAll(juce::Colour::fromRGB(50, 50, 50));
     auto bounds = getLocalBounds();
     g.setColour(boundsColour);
-    g.drawRoundedRectangle(bounds.toFloat().reduced(10.0f), 10.0f, 2.0f);
+    g.drawRoundedRectangle(bounds.toFloat().reduced(2.0f), 0.0f, 5.0f);
 
     g.setColour(juce::Colour::fromRGB(0, 255, 255));
     g.setFont(fontHeight);

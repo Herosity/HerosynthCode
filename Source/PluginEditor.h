@@ -15,9 +15,10 @@
 #include "GUI/FMComponent.h"
 #include "GUI/LFOComponent.h"
 #include "GUI/MeterComponent.h"
+#include "GUI/ReverbComponent.h"
 
 
-//==============================================================================
+//=======================================================================================
 /**
 */
 class NewProjectAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Timer
@@ -26,7 +27,7 @@ public:
     NewProjectAudioProcessorEditor (NewProjectAudioProcessor&);
     ~NewProjectAudioProcessorEditor() override;
 
-    //==============================================================================
+ 
     void paint (juce::Graphics&) override;
     void resized() override;
     void timerCallback() override;
@@ -39,6 +40,7 @@ private:
     AdsrComponent filterAdsr;
     FMComponent filter;
     LFOComponent lfo1;
+    ReverbComponent reverb;
     MeterComponent meter;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)
