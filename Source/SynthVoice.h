@@ -48,8 +48,8 @@ private:
     juce::AudioBuffer<float> synthBuffer;
     float filterAdsrOutput{ 0.0f };
     std::array<float, numChannelsToProcess> lfoOutput{ 0.0f, 0.0f };
-
-
+    float lfoSweep; // The range (+-) which the LFO has been set to sweep over
+    
     juce::dsp::Gain<float> gain;
     
     bool isPrepared{ false };

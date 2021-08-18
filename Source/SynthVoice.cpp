@@ -49,7 +49,6 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     
     adsr.setSampleRate(sampleRate);
     filterAdsr.setSampleRate(sampleRate);
-    
 
     juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = samplesPerBlock;
@@ -103,11 +102,16 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
     for (int ch = 0; ch < synthBuffer.getNumChannels(); ++ch)
     {
         auto * buffer = synthBuffer.getWritePointer(ch, 0);
+        float cutoffCache = filter[ch].getCutoffFrequency();
 
         for (int s = 0; s < synthBuffer.getNumSamples(); ++s)
         {
+            auto lfoOut = lfo[ch].processSample(0.0f);
+            filter[ch].setCutoffFrequency(cutoffCache + juce::jmap (lfoOut, -1.0f, 1.0f, cutoffCache - lfoSweep, cutoffCache + lfoSweep));
             buffer[s] = filter[ch].processNextSample(ch, synthBuffer.getSample(ch, s));
         }
+        
+        filter[ch].setCutoffFrequency(cutoffCache);
     }
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
@@ -129,14 +133,11 @@ void SynthVoice::reset()
 
 void SynthVoice::updateModParams(const int filterType, const float filterCutoff, const float filterResonance, const float adsrDepth, const float lfoFreq, const float lfoDepth)
 {
-    // Control the parameters for the filterADSR
-    // adsrDepth == const 10000
-    auto cutoff = (adsrDepth * filterAdsrOutput) + filterCutoff;
-    cutoff = std::clamp<float>(cutoff, 20.0f, 20000.0f);
-
     for (int ch = 0; ch < numChannelsToProcess; ++ch)
     {
-        filter[ch].setParameters(filterType, cutoff, filterResonance);
+        filter[ch].setParameters(filterType, filterCutoff, filterResonance);
+        lfo[ch].setFrequency(lfoFreq);
+        lfoSweep = lfoDepth;
     }
     
     /*

@@ -11,7 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "C:\Users\rodzi\Desktop\Herosity\Source\PluginProcessor.h"
+#include "../PluginProcessor.h"
 #include "CustomComponent.h"    
 
 //==============================================================================
