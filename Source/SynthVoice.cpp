@@ -79,9 +79,6 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
         
     synthBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
 
-    // https://docs.juce.com/master/classADSR.html
-    filterAdsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
-    filterAdsrOutput = filterAdsr.getNextSample();
 
     synthBuffer.clear();
 
@@ -106,13 +103,18 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
 
         for (int s = 0; s < synthBuffer.getNumSamples(); ++s)
         {
+            filterAdsrOutput = filterAdsr.getNextSample();
             auto lfoOut = lfo[ch].processSample(0.0f);
-            filter[ch].setCutoffFrequency(cutoffCache + juce::jmap (lfoOut, -1.0f, 1.0f, cutoffCache - lfoSweep, cutoffCache + lfoSweep));
+            auto clampted = std::clamp<float>(juce::jmap(filterAdsrOutput * lfoOut, -1.0f, 1.0f, cutoffCache - lfoSweep, cutoffCache + lfoSweep), 20.0f, 20000.0f);
+            filter[ch].setCutoffFrequency(clampted);
             buffer[s] = filter[ch].processNextSample(ch, synthBuffer.getSample(ch, s));
         }
         
         filter[ch].setCutoffFrequency(cutoffCache);
     }
+
+    // https://docs.juce.com/master/classADSR.html
+    // filterAdsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
     {
