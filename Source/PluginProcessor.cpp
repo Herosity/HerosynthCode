@@ -26,7 +26,7 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
     
     synth.addSound(new SynthSound()); 
     synth.addVoice(new SynthVoice());
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 9; i++)
     {
         synth.addVoice(new SynthVoice()); //This makes synth polyphonic.
     }
@@ -200,12 +200,22 @@ void NewProjectAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+
+    std::unique_ptr<juce::XmlElement> xml(apvts.state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void NewProjectAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+
+    std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+
+    //errorchecking if file should not exist
+    if (xmlState.get() != nullptr)
+        if (xmlState->hasTagName(apvts.state.getType()))
+            apvts.replaceState(juce::ValueTree::fromXml(*xmlState));
 }
 
 //==============================================================================
@@ -305,20 +315,20 @@ void NewProjectAudioProcessor::setVoiceParams()
             auto& filterSustain = *apvts.getRawParameterValue("FILTERSUSTAIN");
             auto& filterRelease = *apvts.getRawParameterValue("FILTERRELEASE");
 
-            auto& osc1 = voice->getOscillator1();
-            auto& osc2 = voice->getOscillator2();
+            auto& osc1 = voice->getOscillator1(); //defined in synthvoice, osc1 from osc data
+            auto& osc2 = voice->getOscillator2(); //defined in synthvoice, osc2 from osc data
 
-            auto& adsr = voice->getAdsr();
-            auto& filterAdsr = voice->getFilterAdsr();
+            auto& adsr = voice->getAdsr(); //defined in synthvoice, from adsrdata
+            auto& filterAdsr = voice->getFilterAdsr(); //defined in synthvoice, from adsrdata
 
             for (int i = 0; i < getTotalNumOutputChannels(); i++)
             {
-                osc1[i].setParameters(osc1Choice, osc1Gain, osc1Pitch, osc1FmFreq, osc1FmDepth);
-                osc2[i].setParameters(osc2Choice, osc2Gain, osc2Pitch, osc2FmFreq, osc2FmDepth);
+                osc1[i].setParameters(osc1Choice, osc1Gain, osc1Pitch, osc1FmFreq, osc1FmDepth); //sets value of parameter in oscdata
+                osc2[i].setParameters(osc2Choice, osc2Gain, osc2Pitch, osc2FmFreq, osc2FmDepth); //sets value of parameter in oscdata
             }
 
-            adsr.update(attack.load(), decay.load(), sustain.load(), release.load());
-            filterAdsr.update(filterAttack, filterDecay, filterSustain, filterRelease);
+            adsr.update(attack.load(), decay.load(), sustain.load(), release.load()); //updates parameter in adsrdata
+            filterAdsr.update(filterAttack, filterDecay, filterSustain, filterRelease); //updates paramers in adsrdata
         }
     }
 }

@@ -33,11 +33,11 @@ void OscData::setType(const int oscSelect)
                 break;
 
         case 1: //Saw
-            initialise([](float x) { return x / juce::MathConstants<float>::pi; });
+            initialise([](float x) { return x / juce::MathConstants<float>::pi; }); 
             break;
 
         case 2: //Square
-            initialise([](float x) { return x < 0.0f ? -1.0f : 1.0f; });
+            initialise([](float x) { return x < 0.0f ? -1.0f : 1.0f; });     
             break;
 
         default:

@@ -23,7 +23,7 @@ public:
     {
         setBufferSize(1024); //how fast
         setSamplesPerBlock(64); //how much info
-        setColours(juce::Colour(50, 50, 50), juce::Colour(0, 255, 255));
+        setColours(juce::Colour(60, 60, 60), juce::Colour(255, 100, 23));
 
     }
 

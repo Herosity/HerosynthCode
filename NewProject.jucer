@@ -16,6 +16,11 @@
       <FILE id="GhapRr" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
       <FILE id="vX9H7P" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="IfBhom" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
+      <GROUP id="{2862121A-DCEE-08BB-B08E-7E80F188FAA4}" name="LookAndDontFeel">
+        <FILE id="XeHLux" name="ComboLAF.h" compile="0" resource="0" file="Source/ComboLAF.h"/>
+        <FILE id="uNd4M1" name="LinearLAF.h" compile="0" resource="0" file="Source/LinearLAF.h"/>
+        <FILE id="D9YWia" name="RotaryLAF.h" compile="0" resource="0" file="Source/RotaryLAF.h"/>
+      </GROUP>
       <GROUP id="{7F0780CF-C97B-262E-E19E-6E736FD8B78F}" name="Data">
         <FILE id="jcQTwf" name="AdsrData.cpp" compile="1" resource="0" file="Source/Data/AdsrData.cpp"/>
         <FILE id="u9UvT4" name="AdsrData.h" compile="0" resource="0" file="Source/Data/AdsrData.h"/>

@@ -55,8 +55,8 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor(NewProjectAudioPr
     adsr.setBoundsColour(filterColour);
     
     startTimerHz(60); //specific start timer
-    setSize(1100, 900);
-    setResizeLimits(1100, 900, 1100, 900);
+    setSize(1080, 800);
+    setResizeLimits(1075, 800, 1075, 800);
 }
 
 NewProjectAudioProcessorEditor::~NewProjectAudioProcessorEditor()
@@ -67,31 +67,29 @@ NewProjectAudioProcessorEditor::~NewProjectAudioProcessorEditor()
 //==============================================================================
 void NewProjectAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.fillAll(juce::Colour::fromRGB(50, 50, 50));
+    g.fillAll(juce::Colour::fromRGB(60, 60, 60));
 
-    g.setColour (juce::Colour::fromRGB(0, 255, 255));
+    g.setColour (juce::Colour::fromRGB(85, 83, 87));
+    g.drawRoundedRectangle(juce::Rectangle<float>(1075, 800), 14.0f, 10.0f);
     g.setFont (25.0f);
-    g.setFont(g.getCurrentFont().boldened());
-    g.setFont(g.getCurrentFont().italicised());
-    g.drawFittedText ("H    e   r   o   s   y   n   t   h", getLocalBounds(), juce::Justification::centredBottom, 1);
+    g.setFont(g.getCurrentFont().boldened().italicised());
 }
 
 void NewProjectAudioProcessorEditor::resized()
 {
     const auto oscWidth = 420;
     const auto oscHeight = 180;
+    const auto margin = 1;
 
-    osc1.setBounds(0, 0, oscWidth, oscHeight);
-    osc2.setBounds(0, osc1.getBottom(), oscWidth, oscHeight);
-    filter.setBounds(osc1.getRight(), 0, 180, 200);
-    lfo1.setBounds(osc2.getRight(), filter.getBottom(), 180, 160);
-    filterAdsr.setBounds(filter.getRight(), 0, 230, 360);
-    adsr.setBounds(filterAdsr.getRight(), 0, 230, 360);
-    reverb.setBounds(0, osc2.getBottom(), oscWidth, oscHeight);
-    meter.setBounds(reverb.getRight(), filterAdsr.getBottom(), lfo1.getWidth()+filterAdsr.getWidth()+adsr.getWidth(), oscHeight);
-    audioProcessor.visualiser.setBounds(0, reverb.getBottom(), reverb.getWidth()+meter.getWidth(), oscHeight+100);
+    osc1.setBounds(6, 6, oscWidth, oscHeight);
+    osc2.setBounds(6, osc1.getBottom()+margin, oscWidth, oscHeight);
+    filter.setBounds(osc1.getRight()+margin, 6, 180, 200);
+    lfo1.setBounds(osc2.getRight()+margin, filter.getBottom()+margin, 180, 160);
+    filterAdsr.setBounds(filter.getRight()+margin, 6, 230, 361);
+    adsr.setBounds(filterAdsr.getRight()+margin, 6, 230, 361);
+    reverb.setBounds(6, osc2.getBottom()+margin, oscWidth, oscHeight);
+    meter.setBounds(reverb.getRight()+margin, lfo1.getBottom()+margin, lfo1.getWidth()+filterAdsr.getWidth()+adsr.getWidth()+3, oscHeight);
+    audioProcessor.visualiser.setBounds(6, reverb.getBottom()+margin, reverb.getWidth()+meter.getWidth()+margin, oscHeight+65);
 }
 
 void NewProjectAudioProcessorEditor::timerCallback()

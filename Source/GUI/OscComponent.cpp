@@ -21,6 +21,12 @@ OscComponent::OscComponent(juce::AudioProcessorValueTreeState& apvts, juce::Stri
     juce::StringArray oscChoices{ "Sine", "Saw", "Square" };
     oscSelector.addItemList(oscChoices, 1);
     oscSelector.setSelectedItemIndex(0);
+    oscSelector.setColour(juce::ComboBox::ColourIds::backgroundColourId, juce::Colour::fromRGB(60, 60, 60));
+    oscSelector.setColour(juce::ComboBox::ColourIds::textColourId, juce::Colour::fromRGB(255, 100, 23));
+    oscSelector.setColour(juce::ComboBox::ColourIds::outlineColourId, juce::Colour::fromRGB(60, 60, 60));
+    oscSelector.setColour(juce::ComboBox::ColourIds::buttonColourId, juce::Colour::fromRGB(60, 60, 60));
+    oscSelector.setColour(juce::ComboBox::ColourIds::arrowColourId, juce::Colour::fromRGB(255, 100, 23));
+    oscSelector.setColour(juce::ComboBox::ColourIds::focusedOutlineColourId, juce::Colour::fromRGB(60, 60, 60));
     addAndMakeVisible(oscSelector);
 
     oscSelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(apvts, oscId, oscSelector);
@@ -37,13 +43,13 @@ OscComponent::~OscComponent()
 
 void OscComponent::resized()
 {
-    const auto yStart = 15;
+    const auto yStart = 90;
     const auto width = 70;
     const auto height = 88;
 
-    oscSelector.setBounds(18, 40, 100, 25);
-    gain.setBounds(120, yStart, width, height);
-    pitch.setBounds(190, yStart, width, height);
-    fmFreq.setBounds(260, yStart, width, height);
-    fmDepth.setBounds(330, yStart, width, height);
+    oscSelector.setBounds(15, 50, 100, 25);
+    gain.setBounds(130, yStart, width, height);
+    pitch.setBounds(200, yStart, width, height);
+    fmFreq.setBounds(270, yStart, width, height);
+    fmDepth.setBounds(340, yStart, width, height);
 }

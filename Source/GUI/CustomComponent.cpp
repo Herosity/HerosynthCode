@@ -22,11 +22,24 @@ SliderWithLabel::SliderWithLabel(juce::String labelName, juce::String paramId, j
 
     slider.setSliderStyle(style);
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, textBoxWidth, textBoxHeight);
+    slider.setColour(juce::Slider::ColourIds::trackColourId, juce::Colour::fromRGB(85, 83, 87));             //linear filled     
+    slider.setColour(juce::Slider::ColourIds::backgroundColourId, juce::Colour::fromRGB(60, 60, 60));           //linear unfilled   
+    slider.setColour(juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colour::fromRGB(85, 83, 87));     //rotary filled     
+    slider.setColour(juce::Slider::ColourIds::rotarySliderOutlineColourId, juce::Colour::fromRGB(60, 60, 60));  //rotary unfilled   
+    slider.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colour::fromRGB(0, 255, 255));              //both thumb        
+    slider.setColour(juce::Slider::ColourIds::textBoxTextColourId, juce::Colour::fromRGB(0, 255, 255));         //both textbox text 
+    slider.setColour(juce::Slider::ColourIds::textBoxBackgroundColourId, juce::Colour::fromRGB(60, 60, 60));    //both textbox bg   
+    slider.setColour(juce::Slider::ColourIds::textBoxHighlightColourId, juce::Colour::fromRGB(60, 60, 60));     //both null         
+    slider.setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colour::fromRGB(60, 60, 60));       //both null         
     addAndMakeVisible(slider);
 
     label.setFont(fontHeight);
     label.setText(labelName, juce::dontSendNotification);
     label.setJustificationType(juce::Justification::centred);
+    label.setColour(juce::Label::ColourIds::backgroundColourId, juce::Colour::fromRGB(60, 60, 60));             //label bg          
+    label.setColour(juce::Label::ColourIds::textColourId, juce::Colour::fromRGB(0, 255, 255));                  //label text        
+    label.setColour(juce::Label::ColourIds::outlineColourId, juce::Colour::fromRGB(60, 60, 60));                //outline           
+
     addAndMakeVisible(label);
 
     attachment = std::make_unique<SliderAttachment>(apvts, paramId, slider);
@@ -57,10 +70,10 @@ CustomComponent::~CustomComponent()
 
 void CustomComponent::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colour::fromRGB(50, 50, 50));
+    g.fillAll(juce::Colour::fromRGB(60, 60, 60));
     auto bounds = getLocalBounds();
     g.setColour(boundsColour);
-    g.drawRoundedRectangle(bounds.toFloat().reduced(2.0f), 0.0f, 5.0f);
+    g.drawRoundedRectangle(bounds.toFloat().reduced(2.0f), 14.0f, 2.0f);
 
     g.setColour(juce::Colour::fromRGB(0, 255, 255));
     g.setFont(fontHeight);

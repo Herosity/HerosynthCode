@@ -27,6 +27,7 @@ public:
 private:
 
     juce::ComboBox filterTypeSelector;
+    juce::PopupMenu filterMenu;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> filterTypeAttachment;
 
     SliderWithLabel cutoff;
